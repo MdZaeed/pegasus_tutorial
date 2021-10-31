@@ -15,5 +15,27 @@ lst = json.loads(workflow_ids)
 
 df = pd.DataFrame(lst)
 
+# include =['int']
+pd.set_option('float_format', '{:f}'.format)
+series = df["vm"].describe()
+# series2 = df["pid"].describe(include= include)
+
+# first = df.dag_job_id == "individuals_wrapper_ID0000019"
+# print(series)
+# # print(series2)
+
+# print(df[first].describe())
+
+dags = df.groupby("dag_job_id")
+# sc = lambda x: (x - x.min())
+# dags.transform(sc,'ts')
+
+df['new'] = dags.apply(lambda x: x['ts'] - x['ts'].min())
 print(df)
+# print(dags.groups)
+
+# for ts,dag_job_id in dags:
+#     print(dag_job_id)
+#     print(ts)
+
 
