@@ -20,7 +20,7 @@ def changeRange(ts):
     a= numpy.modf(b)
     return a[1].astype(int)
 
-wf_id = "873684cc-9d46-4f1c-8e91-ee9d02a9d1ee"
+wf_id = "42e89572-5a05-431b-9f53-db62f02fceb5"
 
 with open("kickstart/" + wf_id) as f:
     workflow_ids = f.read()
@@ -30,7 +30,6 @@ f.close()
 lst = json.loads(workflow_ids)
 
 df = pd.DataFrame(lst)
-df.to_excel("kickSampleFailed.xlsx")
 
 pd.set_option('float_format', '{:f}'.format)
 
@@ -44,7 +43,7 @@ df['iowaitT'] = normalize(df['iowait'])
 fig = px.scatter_matrix(df, 
     dimensions = ['tsTrans','threads','vmTrans','bwriteT','utimeT','procs','stimeT','iowaitT'],
     color = "dag_job_id")
-fig.show()
+# fig.show()
 
 # df_subset = df.loc[:, ['dag_job_id','tsTrans','threads']]
 # tsG = df_subset.groupby('tsTrans')['threads'].sum().reset_index()
@@ -55,5 +54,6 @@ fig.show()
 # fig2 = px.scatter_matrix(tsG)
 # fig2.show()
 
+df.to_excel("kickSampleNamd.xlsx")
 
 
