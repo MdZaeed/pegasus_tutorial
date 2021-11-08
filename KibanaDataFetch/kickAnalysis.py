@@ -23,7 +23,8 @@ def changeRange(ts):
     # return a[1].astype(int)
     return b
 
-wf_id = "ba56031f-b37f-403e-9151-6ef01ff5ef6d"
+# wf_id = "eb2900f6-f072-41ba-8a28-da54010cc916" #1000-gnome
+wf_id = "42e89572-5a05-431b-9f53-db62f02fceb5" #SNS-namd
 
 with open("kickstart/" + wf_id) as f:
     workflow_ids = f.read()
@@ -49,6 +50,8 @@ df['ut_st_ratio'] = ut_st_rat
 vm_procs_rat = df['vm'] / df['procs']
 df['vm_procs_ratio'] = vm_procs_rat
 df['pid'] = df['pid'].astype(str)
+pid_job = df['pid'] + " : " + df['dag_job_id']
+df['pid_job'] = pid_job
 df['tsTrans'] = changeRange(df['ts'])
 df['vmTrans'] = normalize(df['vm'])
 df['bwriteT'] = normalize(df['bwrite'])
@@ -56,19 +59,32 @@ df['utimeT'] = normalize(df['utime'])
 df['stimeT'] = normalize(df['stime'])
 df['iowaitT'] = normalize(df['iowait'])
 
-yValues = ["threads","vmTrans","bwriteT","utimeT","stimeT","iowaitT","ut_st_ratio","vm_procs_ratio"]
-count = 1
-data = ['0']
-for item in yValues:
-    tempFig = px.scatter(df, 
-        y = item,
-        x = "tsTrans",
-        color = "pid")
-    # fig.add_trace(tempFig,count,1)
-    data.append(tempFig)
-    count = count +1 
+# yValues = ["threads","vm","bwrite","uTime","stimeT","iowaitT","ut_st_ratio","vm_procs_ratio"]
+yValues = ["tsTrans","vm","bwrite","utime","stimeT","iowaitT","ut_st_ratio","vm_procs_ratio"]
+# for item in yValues:
+#     tempFig = px.scatter(df, 
+#         y = item,
+#         x = "tsTrans",
+#         color = "pid_job")
+#     tempFig.show()
 
-fig = go.Figure(data= data, layout=None)
+tempFig = px.scatter_matrix(df, 
+    dimensions = yValues,
+    color = "pid_job")
+tempFig.show()
+
+# count = 1
+# data = ['0']
+# for item in yValues:
+#     tempFig = px.scatter(df, 
+#         y = item,
+#         x = "tsTrans",
+#         color = "pid")
+#     # fig.add_trace(tempFig,count,1)
+#     data.append(tempFig)
+#     count = count +1 
+
+# fig = go.Figure(data= data, layout=None)
 # fig.update_layout(height=6000, width=8000, title_text="Side By Side Subplots")    
 # fig.show()
 

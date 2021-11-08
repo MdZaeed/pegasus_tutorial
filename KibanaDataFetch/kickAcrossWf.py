@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+
+import json
+import math
+from os import utime, write
+import numpy
+from numpy.core.fromnumeric import sort
+import pandas as pd
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+from os.path import exists
+import sys
+
+def normalize(feature_name):
+    max_value = feature_name.max()
+    min_value = feature_name.min()
+    result = (feature_name - min_value) / (max_value - min_value)
+    return result
+
+
+def changeRange(ts):
+    b = ts - min(ts)
+    # a= numpy.modf(b)
+    # return a[1].astype(int)
+    return b
+
+with open("toRead") as f:
+    workflow_ids = f.read().splitlines()
+
+kick_dfs = []
+stamp_dfs = []
+transfer_dfs = []
+# wf_id = "eb2900f6-f072-41ba-8a28-da54010cc916" #1000-gnome
+# wf_id = "42e89572-5a05-431b-9f53-db62f02fceb5" #SNS-namd
+for workflow_id in workflow_ids:
+    with open("kickstart/" + workflow_id) as f:
+        temp_data = f.read()
+        f.close()
+    lst = json.loads(temp_data)
+    temp_df = pd.DataFrame(lst)
+    if temp_df.empty != True:
+        kick_dfs.append(temp_df)
+
+    if exists("stampede/" + workflow_id):
+        with open("stampede/" + workflow_id) as f:
+            temp_data = f.read()
+        f.close()
+    lst = json.loads(temp_data)
+    temp_df = pd.DataFrame(lst)
+    if temp_df.empty != True:
+            stamp_dfs.append(temp_df)
+    else:
+        stamp_dfs.append(pd.DataFrame())
+
+
+    with open("transfer/" + workflow_id) as f:
+        temp_data = f.read()
+    f.close()
+    lst = json.loads(temp_data)
+    temp_df = pd.DataFrame(lst)
+    if temp_df.empty != True:
+        transfer_dfs.append(temp_df)
+
+
+if(len(sys.argv)==2): kick_dfs[int(sys.argv[1])].to_excel("KickSmapleNew.xlsx")
+if(len(sys.argv)==2): stamp_dfs[int(sys.argv[1])].to_excel("StampSample.xlsx")
+if(len(sys.argv)==2): transfer_dfs[int(sys.argv[1])].to_excel("TransferSample.xlsx")
+
+
+pd.set_option('float_format', '{:f}'.format)
+
+df = kick_dfs[0]
+
+ut_st_rat = df['utime'] / df['stime']
+df['ut_st_ratio'] = ut_st_rat
+vm_procs_rat = df['vm'] / df['procs']
+df['vm_procs_ratio'] = vm_procs_rat
+df['pid'] = df['pid'].astype(str)
+pid_job = df['pid'] + " : " + df['dag_job_id']
+df['pid_job'] = pid_job
+df['tsTrans'] = changeRange(df['ts'])
+df['vmTrans'] = normalize(df['vm'])
+df['bwriteT'] = normalize(df['bwrite'])
+df['utimeT'] = normalize(df['utime'])
+df['stimeT'] = normalize(df['stime'])
+df['iowaitT'] = normalize(df['iowait'])
+
+yValues = ["tsTrans","threads","vm","bwrite","utime","stimeT","iowaitT","ut_st_ratio","vm_procs_ratio"]
+
+tempFig = px.scatter_matrix(df, 
+    dimensions = yValues,
+    color = "pid_job")
+tempFig.show()
+
+
+
+

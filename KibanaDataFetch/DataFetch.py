@@ -9,7 +9,7 @@ es = Elasticsearch("https://data.panorama.isi.edu")
 es_ids = set()
 statistics = {}
 
-workflow_id = "14f1dc74-c508-49de-b17a-61ff68117f30"
+workflow_id = "eb2b1ada-b5ab-4b40-9f98-7a3196e6351e"
 dag_job_id = "individuals_wrapper_ID0000006"
 
 query = 'wf_uuid: "'+ workflow_id + '"'
@@ -32,5 +32,6 @@ if num_results > 0:
 print("Total data: %d" % len(data))
 print("Contents of 1st record:")
 print(json.dumps(data[0], indent=2))
-dataF = open("14f1dc74-c508-49de-b17a-61ff68117f30.txt",'a')
+
+dataF = open("stampede/" + workflow_id,'x')
 dataF.write(json.dumps(data, indent = 2 ))
