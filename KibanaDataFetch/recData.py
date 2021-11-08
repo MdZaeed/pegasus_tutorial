@@ -16,10 +16,10 @@ with open("uids") as f:
 
 for workflow_id in workflow_ids:
     # Change xwf__id to wf_uuid for kickstart and transfer data
-    query = 'xwf__id: "'+ workflow_id + '"'
+    query = 'wf_uuid: "'+ workflow_id + '"'
     print(query)
     # Change to panorama_stampede and panorama_transfer for corresponding data, remove sort='ts' for panorama_transfer
-    res = es.search(index="panorama_stampede", q=query, scroll="30m", sort='ts', size=100)
+    res = es.search(index="panorama_kickstart", q=query, scroll="30m", sort='ts', size=100)
     num_results = res['hits']['total']
     print("Total Results: %d" % num_results)
 
@@ -37,5 +37,5 @@ for workflow_id in workflow_ids:
     print("Total data: %d" % len(data))
     print("Contents of 1st record:")
     # print(json.dumps(data[0], indent=2))
-    dataF = open("stampede/" + workflow_id,'x')
+    dataF = open("kickstart/" + workflow_id,'x')
     dataF.write(json.dumps(data, indent = 2 ))

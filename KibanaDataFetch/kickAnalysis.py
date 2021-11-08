@@ -3,12 +3,17 @@
 import json
 import math
 from os import utime, write
+from dash.html import Center
 import numpy
 from numpy.core.fromnumeric import sort
 import pandas as pd
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import dash
+from dash import dcc
+from dash import html
+from dash.dependencies import Input, Output
 
 def normalize(feature_name):
     max_value = feature_name.max()
@@ -24,7 +29,7 @@ def changeRange(ts):
     return b
 
 # wf_id = "eb2900f6-f072-41ba-8a28-da54010cc916" #1000-gnome
-wf_id = "42e89572-5a05-431b-9f53-db62f02fceb5" #SNS-namd
+wf_id = "14f1dc74-c508-49de-b17a-61ff68117f30" #SNS-namd
 
 with open("kickstart/" + wf_id) as f:
     workflow_ids = f.read()
@@ -67,11 +72,37 @@ yValues = ["tsTrans","vm","bwrite","utime","stimeT","iowaitT","ut_st_ratio","vm_
 #         x = "tsTrans",
 #         color = "pid_job")
 #     tempFig.show()
+app = dash.Dash()
+optio = []
+for yV in yValues:
+    optio.append({'label':yV,'value':yV})
+drop = dcc.Dropdown(id="DD",options=optio,value="vm_procs_ratio")
+fig = html.Div(id='dd-output-container',style={'text-align':'center'})
+figs = [drop,fig]
 
-tempFig = px.scatter_matrix(df, 
-    dimensions = yValues,
-    color = "pid_job")
-tempFig.show()
+@app.callback(
+    Output('dd-output-container', 'children'),
+    Input('DD', 'value')
+)
+def update_output(value):
+    tempFig = px.scatter(df, 
+        x= 'tsTrans', y= value,
+        color = "pid_job")
+    return dcc.Graph(id=value+"fig",figure=tempFig,style={'width': '60vh', 'height': '40vh'})
+
+# for item in yValues:
+#     tempFig = px.scatter(df, 
+#         x= 'tsTrans', y= item,
+#         color = "pid_job")
+#     figs.append(dcc.Graph(id=item,figure=tempFig))
+
+
+def update_output(value):
+    return 'You have selected "{}"'.format(value)
+
+app.layout = html.Div(children=figs)
+
+app.run_server(debug=True)  # Turn off reloader if inside Jupyter
 
 # count = 1
 # data = ['0']

@@ -33,5 +33,5 @@ print("Total data: %d" % len(data))
 print("Contents of 1st record:")
 print(json.dumps(data[0], indent=2))
 
-dataF = open("stampede/" + workflow_id,'x')
+dataF = open("kick/" + workflow_id,'x')
 dataF.write(json.dumps(data, indent = 2 ))

@@ -25,7 +25,7 @@ def changeRange(ts):
     # return a[1].astype(int)
     return b
 
-with open("toRead") as f:
+with open("toReadForB") as f:
     workflow_ids = f.read().splitlines()
 
 pd.set_option('float_format', '{:f}'.format)
@@ -68,19 +68,32 @@ for workflow_id in workflow_ids:
     # select_mon = stamp_df.loc[stamp_df['event'] == 'stampede.task.monitoring']
     # select_mon = select_mon[['event','job__id','start_time','end_time']].reset_index()
 
+    kick_df.sort_values(by=['ts'])
+
     ts_range = min(stamp_df['ts'])
     range = 35
     tss = []
-    no_of_threadss = []
+    bwritten = []
+    bread = []
+    bsum = []
     while (ts_range < max(stamp_df['ts'])):
-        no_of_threads = 0
-        select_mont = kick_df.loc[(kick_df['ts'] > ts_range) & (kick_df['ts'] < ts_range+range)].reset_index()
-        if select_mont.empty != True : no_of_threads = max(select_mont['threads'])
+        byteWritten = 0
+        bytesRead = 0
+        select_mont = kick_df.loc[(kick_df['ts'] < ts_range+range)].reset_index()
+        if select_mont.empty != True : 
+            select_mont_g = select_mont.groupby('pid').tail(1)
+            for ind, it in select_mont_g.iterrows():
+                byteWritten+= it['bwrite'] 
+                bytesRead += it['bread']
         ts_range+=range
         tss.append(ts_range-min(stamp_df['ts']))
-        no_of_threadss.append(no_of_threads)
-
-    fig =px.line(x=tss, y=no_of_threadss,title="Running computing threads by " + workflow_id)
+        bwritten.append(byteWritten)
+        bread.append(bytesRead)
+    bwritten = pd.Series(bwritten)
+    bwritten = bwritten.diff().fillna(bwritten)
+    bread = pd.Series(bread)
+    bread = bread.diff().fillna(bread)
+    fig =px.bar(x=tss, y=[bwritten,bread],title="Single Bytes analysis by " + workflow_id,barmode="group")
     fig.show()
 
 
