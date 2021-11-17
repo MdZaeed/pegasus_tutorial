@@ -18,6 +18,8 @@ def normalize(feature_name):
     result = (feature_name - min_value) / (max_value - min_value)
     return result
 
+def toMegabytes(feature_name):
+    return feature_name / 1048576
 
 def changeRange(ts):
     b = ts - min(ts)
@@ -91,9 +93,12 @@ for workflow_id in workflow_ids:
         bread.append(bytesRead)
     bwritten = pd.Series(bwritten)
     bwritten = bwritten.diff().fillna(bwritten)
+    bwritten = toMegabytes(bwritten)
     bread = pd.Series(bread)
     bread = bread.diff().fillna(bread)
-    fig =px.bar(x=tss, y=[bwritten,bread],title="Single Bytes analysis by " + workflow_id,barmode="group")
+    bread = toMegabytes(bread)
+    fig =px.bar(x=tss, y=[bread,bwrite],
+        title="Single Bytes analysis by " + workflow_id,barmode="group")
     fig.show()
 
 
