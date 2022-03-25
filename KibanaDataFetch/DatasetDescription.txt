@@ -1,0 +1,174 @@
+Panorama_kickstart
+dag_job_id	
+pid	
+vm	
+@version	
+rank	
+bsend	
+site	
+syscw	
+type	
+wf_label	
+bwrite	
+exe	
+rchar	
+threads	
+utime	
+syscr	
+@timestamp	
+xformation	
+wf_uuid	
+task_id	
+hostname	
+brecv	
+procs	
+event	
+iowait	
+wchar	
+bread	
+ts	
+stime	
+condor_job_id	
+rss
+
+
+Panorama_stampede
+xwf__id	
+@version	
+dag__file__name	
+dax__label	
+event	
+planner__version	
+type	
+argv	
+@timestamp	
+dax__version	
+dax__file	
+dax__index	
+ts	
+submit__dir	
+root__xwf__id	
+user	
+submit__hostname	
+restart_count	
+reason	
+stdout.file	
+stderr.file	
+sched__id	
+job__id	
+job_inst__id	
+js__id	
+inv__id	
+exitcode	
+remote_cpu_time	
+dur	
+start_time	
+executable	
+transformation	
+stdout__text	
+stderr__file	
+stderr__text	
+site	
+work_dir	
+status	
+stdout__file	
+local__dur	
+multiplier_factor	
+hostname	
+ip	
+total_memory	
+uname	
+task__id	
+darshan_log_version	
+STDIO_module_data:
+	{'agg_perf_by_slowest': 14.469192, 'shared_files': {'time_by_cumul_io_only': 7.9e-05, 
+	'time_by_open': 0.0, 'time_by_slowest': 0.001265, 'time_by_open_lastio': 41.145378, 
+	'time_by_cumul_meta_only': 0.0}, 'total_bytes': 19197, 'agg_perf_by_open': 0.0, 
+	'agg_perf_by_open_lastio': 0.000445, 'unique_files': {'slowest_rank_io_time': 0.0, 
+	'slowest_rank_meta_only_time': 0.0, 'slowest_rank': 0.0}, 'agg_perf_by_cumul': 231.507066}
+
+uid	
+exe	
+monitoring_event	
+end_time_asci	
+end_time	
+nprocs	
+run_time	
+POSIX_module_data:
+	{'agg_perf_by_slowest': 2.980868, 'shared_files': {'time_by_cumul_io_only': 0.0, 
+	'time_by_open': 0.0, 'time_by_slowest': 0.0, 'time_by_open_lastio': 0.0, 
+	'time_by_cumul_meta_only': 0.0}, 'total_bytes': 37354, 'agg_perf_by_open': 2.980868, 
+	'agg_perf_by_open_lastio': 2.980868, 'unique_files': {
+	'slowest_rank_io_time': 0.011951, 'slowest_rank_meta_only_time': 0.010504, 
+	'slowest_rank': 0.0}, 'agg_perf_by_cumul': 2.980868}
+compression_method	
+start_time_asci	
+jobid	
+metadata:
+	{'h': 'romio_no_indep_rw=true;cb_nodes=4', 'lib_ver': '3.1.6'}
+
+
+Panorama_transfer
+
+@version	
+source_endpoint_display_name	
+DATA_TYPE	
+nice_status_details	
+username	
+subtasks_pending	
+completion_time	
+type	
+files_transferred	
+nice_status_expires_in	
+files	
+directories	
+canceled_by_admin_message	
+canceled_by_admin	
+destination_endpoint_id	
+source_endpoint	
+source_endpoint_id	
+recursive_symlinks	
+transfer_events	: 
+	[{'details': '{\n  "files_succeeded": 1\n}', 'time': '2018-07-18 21:42:01+00:00', 
+	'is_error': False, 'description': 'succeeded', 'parent_task_id': None, 'DATA_TYPE': 
+	'event', 'code': 'SUCCEEDED'}, {'details': '{\n  "bytes_transferred": 912059,\n  
+	"mbps": 7.65,\n  "duration": 0.95\n}', 'time': '2018-07-18 21:42:01+00:00', 
+	'is_error': False, 'description': 'progress', 'parent_task_id': None, 
+	'DATA_TYPE': 'event', 'code': 'PROGRESS'}, {'details': '{\n  
+	"type": "GridFTP Transfer", \n  "concurrency": 2, \n  "parallelism": 4, \n  
+	"pipelining": 20\n}', 'time': '2018-07-18 21:42:00+00:00', 'is_error': False, 
+	'description': 'started', 'parent_task_id': None, 'DATA_TYPE': 'event', 'code': 'STARTED'}]
+preserve_timestamp	
+event	
+bytes_checksummed	
+status	
+subtasks_retrying	
+symlinks	
+encrypt_data	
+command	
+verify_checksum	
+label	
+dag_job_id	
+is_paused	
+fatal_error	
+nice_status_short_description	
+bytes_transferred	
+effective_bytes_per_second	
+@timestamp	
+deadline	
+owner_id	
+subtasks_total	
+delete_destination_extra	
+destination_endpoint	
+request_time	
+subtasks_expired	
+destination_endpoint_display_name	
+history_deleted	
+task_id	
+subtasks_succeeded	
+wf_uuid	
+subtasks_canceled	
+faults	
+sync_level	
+files_skipped	
+subtasks_failed	nice_status
